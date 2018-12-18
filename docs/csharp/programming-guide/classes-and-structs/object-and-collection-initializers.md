@@ -9,20 +9,54 @@ ms.assetid: c58f3db5-d7d4-4651-bd2d-5a3a97357f61
 ---
 # Object and Collection Initializers (C# Programming Guide)
 Object initializers let you assign values to any accessible fields or properties of an object at creation time without having to invoke a constructor followed by lines of assignment statements. The object initializer syntax enables you to specify arguments for a constructor or omit the arguments (and parentheses syntax).  The following example shows how to use an object initializer with a named type, `Cat` and how to invoke the default constructor. Note the use of auto-implemented properties in the `Cat` class. For more information, see [Auto-Implemented Properties](../../../csharp/programming-guide/classes-and-structs/auto-implemented-properties.md).  
-  
+
+"""
+The Cat class should probably either change to Pet, or there should be a parent Pet class. Having a parent Pet class
+would make this unnecessarily complicated, though
+""" 
+
  [!code-csharp[csProgGuideLINQ#39](../../../csharp/programming-guide/arrays/codesnippet/CSharp/object-and-collection-initializers_1.cs)]  
   
  [!code-csharp[csProgGuideLINQ#45](../../../csharp/programming-guide/arrays/codesnippet/CSharp/object-and-collection-initializers_2.cs)] 
  
 The object initializers syntax allows you to create an instance, and after that it assigns the newly created object, with its assigned properties, to the variable in the assignment.
-  
+
+It's also possible to nest object initializers within one another. Consider the `Person` class, in which a `Person` can own a `Cat` as a pet:
+```csharp
+class Person
+{
+  // Auto-implemented properties
+  public Cat Pet { get; set; }
+  public string Name { get; set; }
+}
+```
+
+You can simultaneously initialize new `Person` and `Cat` objects with nested object initialization:
+```csharp
+var catOwner = new Person 
+{
+    Pet = new Cat { Age = 2, Name = "Tiger" },
+    Name = "John Smith"
+};
+```
+
 ## Object Initializers with anonymous types  
  Although object initializers can be used in any context, they are especially useful in [!INCLUDE[vbteclinq](~/includes/vbteclinq-md.md)] query expressions. Query expressions make frequent use of [anonymous types](../../../csharp/programming-guide/classes-and-structs/anonymous-types.md), which can only be initialized by using an object initializer, as shown in the following declaration.  
   
 ```csharp
 var pet = new { Age = 10, Name = "Fluffy" };  
 ```  
-  
+
+Nested initialization does not change with anonymous types:
+
+```csharp
+var petOwner = new 
+{ 
+    Pet = new { Age = 10, Name = "Fluffy"}, 
+    Name = "Jane Doe" 
+};
+```
+
  Anonymous types enable the `select` clause in a [!INCLUDE[vbteclinq](~/includes/vbteclinq-md.md)] query expression to transform objects of the original sequence into objects whose value and shape may differ from the original. This is useful if you want to store only a part of the information from each object in a sequence. In the following example, assume that a product object (`p`) contains many fields and methods, and that you are only interested in creating a sequence of objects that contain the product name and the unit price.  
   
  [!code-csharp[csProgGuideLINQ#40](../../../csharp/programming-guide/arrays/codesnippet/CSharp/object-and-collection-initializers_3.cs)]  
