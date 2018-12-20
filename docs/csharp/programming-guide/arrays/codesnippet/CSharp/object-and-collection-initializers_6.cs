@@ -30,7 +30,7 @@
                         strBuilder.Append($"There are {Cats.Count} cats in this shelter. They are:");
                         foreach (var cat in Cats)
                         {
-                            strBuilder.Append(cat);
+                            strBuilder.Append($"{cat.Name}, who is {cat.Age} years old.");
                             strBuilder.Append(Environment.NewLine);
                         }
                         strBuilder.Append($"The supervisor of the shelter is {Supervisor.Name} and they own a cat named {Supervisor.PetCat.Name} who is {Supervisor.PetCat.Age} years old.");
@@ -96,7 +96,7 @@
                             System.Console.WriteLine($"{c.Name} is {c.Age} years old.");
                         else
                             System.Console.WriteLine("List element has null value.");
-
+                    System.Console.WriteLine($"{person.Name} has a cat named {person.PetCat.Name} who is {person.PetCat.Age} years old.");
                     System.Console.WriteLine(catShelter.ToString());
                 }
                 // Output:
@@ -107,4 +107,10 @@
                 //Furrytail is 5 years old.
                 //Peaches is 4 years old.
                 //List element has null value.
+                //John Smith has a cat named Tiger who is 2 years old.
+                //The shelter's mascot is Blacktip who is 4 years old.
+                //There are 2 cats in the shelter. They are:
+                //Tom, who is 5 years old.
+                //Sakamoto, who is 3 years old.
+                //The supervisor of the shelter is Sarah Katz and they own a cat named Bruno who is 6 years old.
             }
