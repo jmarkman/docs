@@ -51,12 +51,41 @@ public string this[char c, int i] {  set { ... }; }
 }
 ```
 
+It's also possible to nest object initializers within one another. Consider the `Person` class, in which a `Person` can own a `Cat` as a pet:
+```csharp
+class Person
+{
+  // Auto-implemented properties
+  public Cat Pet { get; set; }
+  public string Name { get; set; }
+}
+```
+
+You can simultaneously initialize new `Person` and `Cat` objects with nested object initialization:
+```csharp
+var catOwner = new Person 
+{
+    Pet = new Cat { Age = 2, Name = "Tiger" },
+    Name = "John Smith"
+};
+```
+
 ## Object Initializers with anonymous types
 
 Although object initializers can be used in any context, they are especially useful in [!INCLUDE[vbteclinq](~/includes/vbteclinq-md.md)] query expressions. Query expressions make frequent use of [anonymous types](../../../csharp/programming-guide/classes-and-structs/anonymous-types.md), which can only be initialized by using an object initializer, as shown in the following declaration.  
 
 ```csharp
 var pet = new { Age = 10, Name = "Fluffy" };  
+```
+
+Nested initialization does not change with anonymous types:
+
+```csharp
+var petOwner = new 
+{ 
+    Pet = new { Age = 10, Name = "Fluffy"}, 
+    Name = "Jane Doe" 
+};
 ```
 
 Anonymous types enable the `select` clause in a [!INCLUDE[vbteclinq](~/includes/vbteclinq-md.md)] query expression to transform objects of the original sequence into objects whose value and shape may differ from the original. This is useful if you want to store only a part of the information from each object in a sequence. In the following example, assume that a product object (`p`) contains many fields and methods, and that you are only interested in creating a sequence of objects that contain the product name and the unit price.  
